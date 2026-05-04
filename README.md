@@ -1,118 +1,100 @@
-# Java-Based REST API Service
+# Cloud-Deployed Product Management REST API 🚀
 
-A simple, yet robust Spring Boot REST API for managing a product catalog. This project demonstrates core web development concepts with Spring Boot, including RESTful routing, data persistence using Spring Data JPA, and data validation.
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Docker](https://img.shields.io/badge/Docker-Containerized-blue.svg)](https://www.docker.com/)
+[![Render](https://img.shields.io/badge/Render-Deployed-purple.svg)](https://render.com/)
 
-## Tech Stack
+A production-ready, enterprise-grade RESTful Web Service built with Java and Spring Boot. This project serves as the backend engine for a product catalog, demonstrating clean n-tier architecture, robust data validation, containerization, and cloud deployment.
 
-*   **Java 17**
-*   **Spring Boot 3.2.5**
-    *   Spring Web (REST endpoints)
-    *   Spring Data JPA (Data access)
-    *   Spring Boot Validation (Input validation)
-*   **H2 Database** (In-memory database for testing/development)
-*   **Maven** (Dependency management and build tool)
+---
 
-## Features
+## 🌍 Live Demonstration
+The API is currently containerized via Docker and deployed live on Render. 
+You can interact with the live API here: 
+👉 **[https://java-based-rest-api-service-1.onrender.com/api/products](https://java-based-rest-api-service-1.onrender.com/api/products)**
 
-*   **CRUD Operations:** Create, Read, Update, and Delete products.
-*   **Data Validation:** Ensures data integrity (e.g., required fields, minimum length, non-negative price).
-*   **Exception Handling:** Custom exception handler for validation errors, returning structured bad request responses.
-*   **H2 Console:** Embedded database console accessible from a browser.
+*(Note: The database is in-memory. If the server sleeps on the free tier, data resets).*
 
-## Project Structure
+---
 
-*   `model/Product.java`: Defines the Product entity and its validation rules.
-*   `controller/ProductController.java`: Handles incoming HTTP requests and routes them to the service layer.
-*   `service/ProductService.java` & `repository/ProductRepository.java`: Manages business logic and data access.
+## 🏗️ Architecture & Tech Stack
 
-## Prerequisites
+This project follows a strict **Controller-Service-Repository** architectural pattern to ensure separation of concerns and maintainability.
 
-*   Java Development Kit (JDK) 17 or higher
-*   Maven
+*   **Core:** Java 17, Spring Boot 3.2.5
+*   **Web Layer:** Spring Web (REST Controllers, Global Exception Handling)
+*   **Data Layer:** Spring Data JPA, Hibernate, H2 In-Memory Database
+*   **Validation:** Spring Boot Starter Validation (JSR-380)
+*   **DevOps:** Docker (Multi-stage builds, Layer Caching), Maven
 
-## Running the Application
+---
 
-1.  Clone the repository or download the source code.
-2.  Navigate to the project directory in your terminal.
-3.  Run the application using the Maven wrapper or your local Maven installation:
+## 🚀 Getting Started (Local Development)
 
-    ```bash
-    mvn spring-boot:run
-    ```
+### Prerequisites
+*   [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) or higher
+*   [Maven](https://maven.apache.org/) (Optional, wrapper included)
+*   [Docker](https://www.docker.com/) (If running via container)
 
-    *Alternatively, you can build the JAR file and run it:*
+### Option 1: Running with Maven (Standard)
+1. Clone the repository and navigate to the project root.
+2. Run the application using the Maven wrapper:
+   ```bash
+   mvnw spring-boot:run
+   ```
+3. The API will be available at `http://localhost:8080/api/products`
 
-    ```bash
-    mvn clean install
-    java -jar target/demo-0.0.1-SNAPSHOT.jar
-    ```
+### Option 2: Running with Docker (Containerized)
+1. Build the Docker image:
+   ```bash
+   docker build -t java-rest-api .
+   ```
+2. Run the Docker container:
+   ```bash
+   docker run -p 8080:8080 java-rest-api
+   ```
 
-The application will start on `http://localhost:8080`.
+---
 
-## API Endpoints
+## 🧪 How to Test the API
 
-The API is accessible at `http://localhost:8080/api/products`.
+Since this is a Backend API, it doesn't have a frontend interface. You can interact with it using tools like **Postman**, **Hoppscotch**, or standard terminal commands.
 
-### Get All Products
-*   **URL:** `/api/products`
-*   **Method:** `GET`
-*   **Response:** JSON array of products.
+### Create a Product (POST)
+To add a product to the database, send a POST request with JSON data.
 
-### Get Product by ID
-*   **URL:** `/api/products/{id}`
-*   **Method:** `GET`
-*   **Response:** JSON object of the product, or `404 Not Found`.
+**Using cURL / PowerShell:**
+```bash
+curl -X POST https://java-based-rest-api-service-1.onrender.com/api/products \
+-H "Content-Type: application/json" \
+-d "{\"name\":\"Gaming Laptop\", \"price\":1299.99, \"description\":\"High-end gaming laptop\"}"
+```
 
-### Create Product
-*   **URL:** `/api/products`
-*   **Method:** `POST`
-*   **Headers:** `Content-Type: application/json`
-*   **Body:**
-    ```json
-    {
-        "name": "Laptop",
-        "price": 999.99,
-        "description": "High-performance laptop"
-    }
-    ```
-*   **Response:** `201 Created` with the saved product object.
-*   **Validation Errors Response:** `400 Bad Request` with field-level error messages.
+### View All Products (GET)
+**Using your Browser:**
+Simply navigate to: `https://java-based-rest-api-service-1.onrender.com/api/products`
 
-### Update Product
-*   **URL:** `/api/products/{id}`
-*   **Method:** `PUT`
-*   **Headers:** `Content-Type: application/json`
-*   **Body:**
-    ```json
-    {
-        "name": "Gaming Laptop",
-        "price": 1299.99,
-        "description": "High-performance gaming laptop"
-    }
-    ```
-*   **Response:** `200 OK` with the updated product object, or `404 Not Found`.
+**Using cURL:**
+```bash
+curl https://java-based-rest-api-service-1.onrender.com/api/products
+```
 
-### Delete Product
-*   **URL:** `/api/products/{id}`
-*   **Method:** `DELETE`
-*   **Response:** `204 No Content`.
+---
 
-## Database Access
+## 📖 Complete API Reference
 
-The application uses an in-memory H2 database. Data will be lost when the application restarts.
-You can view the database via the H2 console:
+Base URL: `/api/products`
 
-1.  Navigate to `http://localhost:8080/h2-console` in your browser.
-2.  Use the following configuration to connect:
-    *   **JDBC URL:** `jdbc:h2:mem:testdb`
-    *   **Username:** `sa`
-    *   **Password:** *(leave blank)*
+| HTTP Method | Endpoint | Description | Request Body | Success Response |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/` | Retrieve all products | None | `200 OK` (JSON Array) |
+| `GET` | `/{id}` | Retrieve product by ID | None | `200 OK` (JSON Object) |
+| `POST` | `/` | Create a new product | JSON Object | `201 Created` |
+| `PUT` | `/{id}` | Update an existing product | JSON Object | `200 OK` |
+| `DELETE` | `/{id}` | Delete a product | None | `204 No Content` |
 
-## Validation Rules
+---
 
-When creating or updating a product, the following rules apply:
-*   `name`: Cannot be blank, must be between 2 and 100 characters.
-*   `price`: Required, must be greater than or equal to 0.
-*   `description`: Maximum 500 characters.
-
-If validation fails, the API will return a `400 Bad Request` with a JSON object mapping the field names to error messages.
+## 🛡️ Validation & Error Handling
+The application features global exception handling. If you attempt to send invalid data (e.g., a negative price or a blank name), the API intercepts the bad request and returns a structured `400 Bad Request` JSON response detailing exactly which fields failed validation.
